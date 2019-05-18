@@ -68,16 +68,20 @@ def find_intersections(buildings_dict, geometry, geohash_length=GEOHASH_LENGTH_D
     buildings_with_trash = calculate_trash(buildings, geometry)
     return buildings_with_trash
 
-rnd_dict = create_random_dict(350000)
-write_as_pickle(rnd_dict, "rnd_dict.pkl")
-rnd_dict = read_pickle("rnd_dict.pkl")
+# rnd_dict = create_random_dict(350000)
+# write_as_pickle(rnd_dict, "rnd_dict.pkl")
+# rnd_dict = read_pickle("rnd_dict.pkl")
 
 
-for i in range(5):
-    test_cases =  [random_polygon() for x in range(10**i)]
-    start = time.time()
-    test_collisions = [(a, find_intersections(rnd_dict, a) )for a in test_cases]
-    end = time.time()
-    print(10**i, "   ", (end - start)/ 10**i)
+# for i in range(5):
+#     test_cases =  [random_polygon() for x in range(10**i)]
+#     start = time.time()
+#     test_collisions = [(a, find_intersections(rnd_dict, a) )for a in test_cases]
+#     end = time.time()
+#     print(10**i, "   ", (end - start)/ 10**i)
+#
+
+
+
 
 pass
