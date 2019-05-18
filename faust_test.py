@@ -1,3 +1,5 @@
+import asyncio
+
 import faust
 from shapely import wkt
 
@@ -28,18 +30,21 @@ buildings = read_pickle("rnd_dict.pkl")
 async def join(geographys):
     async for geography in geographys:
         gfids = find_intersections(buildings, wkt.loads(geography.wkt))
-        for gfid in gfids:
-            await output.send(value=GFID(gfid[0]["id"]))
+        if len(gfids) > 0:
+            await asyncio.wait([output_topic.send(value=GFID(gfid[0]["id"])) for gfid in gfids])
 
 
-@app.agent(output_topic)
-async def output(GFIDS):
-    async for gfid in GFIDS:
-        print(gfid.gfid)
 
-@app.timer(interval=0.001)
-async def example_sender(app):
-    await join.send(value=Geography( random_polygon().wkt))
+
+
+# @app.agent(output_topic)
+# async def output(GFIDS):
+#     async for gfid in GFIDS:
+#         print(gfid.gfid)
+
+@app.timer(interval=5.0)
+async def example_sender():
+    await asyncio.wait([input_topic.send(value=Geography( random_polygon().wkt)) for i in range(100)])
 
 if __name__ == '__main__':
     app.main()
