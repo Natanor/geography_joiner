@@ -37,7 +37,7 @@ async def output(GFIDS):
     async for gfid in GFIDS:
         print(gfid.gfid)
 
-@app.timer(interval=1.0)
+@app.timer(interval=0.001)
 async def example_sender(app):
     await join.send(value=Geography( random_polygon().wkt))
 
